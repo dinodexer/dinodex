@@ -24,3 +24,8 @@ export const ERC20_ABI = [
 ]
 
 export const MAX = (2n ** 256n) - 1n
+export const PERMIT_ABI = [
+"function name() view returns (string)",
+"function nonces(address) view returns (uint256)",
+"function version() view returns (string)"
+]

